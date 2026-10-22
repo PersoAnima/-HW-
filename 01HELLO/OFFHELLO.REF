@@ -1,0 +1,21 @@
+
+Microsoft Cross-Reference  Version 5.00	      Thu Oct 22 14:43:41 2026
+
+
+  Symbol Cross-Reference	    (# definition, + modification)	Cref-1
+
+CODE . . . . . . . . . . . . . .    7  
+
+DATA . . . . . . . . . . . . . .    3  
+DGROUP . . . . . . . . . . . . .    9  
+
+HELLO. . . . . . . . . . . . . .    4#    11  
+
+STACK. . . . . . . . . . . . . .    2#     2  
+START. . . . . . . . . . . . . .    8#    16  
+
+_DATA. . . . . . . . . . . . . .    3# 
+_TEXT. . . . . . . . . . . . . .    7# 
+
+
+ 8 Symbols

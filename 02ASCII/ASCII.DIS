@@ -1,0 +1,56 @@
+Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file ASCII.obj
+
+File Type: COFF OBJECT
+
+_main:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 08           sub         esp,8
+  00000006: C7 45 F8 00 00 00  mov         dword ptr [ebp-8],0
+            00
+  0000000D: EB 09              jmp         00000018
+  0000000F: 8B 45 F8           mov         eax,dword ptr [ebp-8]
+  00000012: 83 C0 01           add         eax,1
+  00000015: 89 45 F8           mov         dword ptr [ebp-8],eax
+  00000018: 83 7D F8 02        cmp         dword ptr [ebp-8],2
+  0000001C: 7D 4A              jge         00000068
+  0000001E: C7 45 FC 00 00 00  mov         dword ptr [ebp-4],0
+            00
+  00000025: EB 09              jmp         00000030
+  00000027: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  0000002A: 83 C1 01           add         ecx,1
+  0000002D: 89 4D FC           mov         dword ptr [ebp-4],ecx
+  00000030: 83 7D FC 0D        cmp         dword ptr [ebp-4],0Dh
+  00000034: 7D 26              jge         0000005C
+  00000036: 6B 55 F8 0D        imul        edx,dword ptr [ebp-8],0Dh
+  0000003A: 8B 45 FC           mov         eax,dword ptr [ebp-4]
+  0000003D: 8D 4C 02 61        lea         ecx,[edx+eax+61h]
+  00000041: 51                 push        ecx
+  00000042: E8 00 00 00 00     call        _putchar
+  00000047: 83 C4 04           add         esp,4
+  0000004A: 83 7D FC 0C        cmp         dword ptr [ebp-4],0Ch
+  0000004E: 74 0A              je          0000005A
+  00000050: 6A 20              push        20h
+  00000052: E8 00 00 00 00     call        _putchar
+  00000057: 83 C4 04           add         esp,4
+  0000005A: EB CB              jmp         00000027
+  0000005C: 6A 0A              push        0Ah
+  0000005E: E8 00 00 00 00     call        _putchar
+  00000063: 83 C4 04           add         esp,4
+  00000066: EB A7              jmp         0000000F
+  00000068: 33 C0              xor         eax,eax
+  0000006A: 8B E5              mov         esp,ebp
+  0000006C: 5D                 pop         ebp
+  0000006D: C3                 ret
+
+  Summary
+
+          28 .chks64
+         700 .debug$S
+          68 .debug$T
+          2F .drectve
+          6E .text$mn

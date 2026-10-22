@@ -1,0 +1,68 @@
+Microsoft (R) Macro Assembler Version 5.00                  10/22/26 14:43:07
+                                                             Page     1-1
+
+
+       1				.MODEL SMALL             ; Ê¹ÓÃÐ¡ÄÚ´æÄ£
+					ÐÍ 
+       2 0100				.STACK 100H              ; ×¼±¸ 100H ×Ö
+					½ÚµÄÕ» 
+       3 0000				.DATA                    ; ÏÂÃæ¶¨ÒåÊý¾Ý
+					 
+       4 0000  48 65 6C 6C 6F 20 77	HELLO DB 'Hello world!', 0DH, 0AH, '$' 
+					; ×Ö·û´®¡¢»Ø³µ¡¢»»ÐÐ¡¢½áÊø·û $ 
+       5       6F 72 6C 64 21 0D 0A	
+       6       24			
+       7 0000				.CODE                    ; ÏÂÃæ¿ªÊ¼Ð´³Ì
+					Ðò´úÂë 
+       8 0000				START:                   ; ³ÌÐòÈë¿Ú 
+       9 0000  B8 ---- R		    MOV AX, @DATA        ; ÏÈ°ÑÊý¾Ý¶ÎµØ
+					Ö··Å½ø AX 
+      10 0003  8E D8			    MOV DS, AX           ; ÔÙÓÃ AX ³õÊ¼
+					»¯Êý¾Ý¶Î¼Ä´æÆ÷ DS 
+      11 0005  BA 0000 R		    MOV DX, OFFSET HELLO ; °Ñ HELLO ÔÚÊ
+					ý¾Ý¶ÎÖÐµÄÆ«ÒÆµØÖ··Å½ø DX 
+      12 0008  B4 09			    MOV AH, 09H          ; Ñ¡Ôñ DOS µÄ×
+					Ö·û´®Êä³ö¹¦ÄÜ 
+      13 000A  CD 21			    INT 21H              ; µ÷ÓÃ DOS£¬Êä
+					³öÒÔ $ ½áÊøµÄ×Ö·û´® 
+      14 000C  B8 4C00			    MOV AX, 4C00H        ; Ñ¡Ôñ½áÊø³ÌÐò
+					£¬·µ»ØÂëÎª 0 
+      15 000F  CD 21			    INT 21H              ; µ÷ÓÃ DOS£¬½á
+					Êø³ÌÐò 
+      16 0011				END START                ; Ô´ÎÄ¼þ½áÊø£¬
+					Èë¿ÚÊÇ START 
+Microsoft (R) Macro Assembler Version 5.00                  10/22/26 14:43:07
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+DGROUP . . . . . . . . . . . . .  	GROUP
+  _DATA  . . . . . . . . . . . .  	000F	WORD	PUBLIC	'DATA'
+  STACK  . . . . . . . . . . . .  	0100	PARA	STACK	'STACK'
+_TEXT  . . . . . . . . . . . . .  	0011	WORD	PUBLIC	'CODE'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+HELLO  . . . . . . . . . . . . .  	L BYTE	0000	_DATA
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	_TEXT
+
+@CODE  . . . . . . . . . . . . .  	TEXT  _TEXT		
+@CODESIZE  . . . . . . . . . . .  	TEXT  0		
+@DATASIZE  . . . . . . . . . . .  	TEXT  0		
+@FILENAME  . . . . . . . . . . .  	TEXT  OFFHELLO		
+
+
+     14 Source  Lines
+     14 Total   Lines
+     16 Symbols
+
+  50548 + 465996 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

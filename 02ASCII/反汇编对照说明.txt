@@ -1,0 +1,46 @@
+作业题目 2：C 语言与反汇编对照说明
+
+ASCII.C 使用两层 for 循环。外层的 row 选择第 0 行或第 1 行，内层的 col 依次选择本行的第 0～12 个字母。字母编码由 'a' + row*13 + col 算出。
+
+ASCII.cod 是编译器生成的“C 源码和汇编指令对照列表”。ASCII.DIS 是把目标文件中的机器码还原成汇编指令的结果。以下只解释 main 函数中与本题有关的指令。
+
+1. 设置行号
+C 代码：row = 0
+汇编指令：mov DWORD PTR _row$1[ebp], 0
+含义：在内存中的局部变量 row 处存入 0。
+
+2. 判断是否已打印两行
+C 代码：row < 2
+汇编指令：cmp DWORD PTR _row$1[ebp], 2；jge ...
+含义：比较行号和 2；行号达到 2 时离开外层循环。
+
+3. 设置列号
+C 代码：col = 0
+汇编指令：mov DWORD PTR _col$2[ebp], 0
+含义：每开始新的一行，把列号重新设为 0。
+
+4. 判断本行是否打印满 13 个字母
+C 代码：col < 13
+汇编指令：cmp DWORD PTR _col$2[ebp], 13；jge ...
+含义：列号达到 13 时结束当前行。
+
+5. 计算并打印当前字母
+C 代码：putchar('a' + row*13 + col)
+汇编指令：imul edx, ..., 13；lea ecx, [edx+eax+97]；call _putchar
+含义：先算 row*13，再加 col 和字母 a 的 ASCII 码 97，最后调用 putchar。
+
+6. 判断是否需要打印空格
+C 代码：if (col != 12) putchar(' ')
+汇编指令：cmp ..., 12；je ...；push 32；call _putchar
+含义：如果是最后一列就跳过空格，否则打印 ASCII 码 32，也就是空格。
+
+7. 一行结束后换行
+C 代码：putchar('\n')
+汇编指令：push 10；call _putchar
+含义：打印 ASCII 码为 10 的换行字符。
+
+运行结果：
+a b c d e f g h i j k l m
+n o p q r s t u v w x y z
+
+说明：C 程序由 Windows 的 32 位编译器生成，所以列表中会出现 EAX、ECX、EDX、EBP、ESP 等 32 位寄存器。ASLOOP.ASM 和 ASJUMP.ASM 是 DOS 下的 16 位程序。两者的指令和输出方式不必逐条相同，要比较的是设置初值、检查循环条件、输出字符、增加下标、跳回循环这些步骤。

@@ -1,0 +1,167 @@
+Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file SUM.obj
+
+File Type: COFF OBJECT
+
+_main:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 0C           sub         esp,0Ch
+  00000006: C7 45 F4 00 00 00  mov         dword ptr [ebp-0Ch],0
+            00
+  0000000D: 8D 45 F8           lea         eax,[ebp-8]
+  00000010: 50                 push        eax
+  00000011: 68 00 00 00 00     push        offset $SG9675
+  00000016: E8 00 00 00 00     call        _scanf
+  0000001B: 83 C4 08           add         esp,8
+  0000001E: 83 F8 01           cmp         eax,1
+  00000021: 75 0C              jne         0000002F
+  00000023: 83 7D F8 01        cmp         dword ptr [ebp-8],1
+  00000027: 7C 06              jl          0000002F
+  00000029: 83 7D F8 64        cmp         dword ptr [ebp-8],64h
+  0000002D: 7E 14              jle         00000043
+  0000002F: 68 00 00 00 00     push        offset $SG9676
+  00000034: E8 00 00 00 00     call        _puts
+  00000039: 83 C4 04           add         esp,4
+  0000003C: B8 01 00 00 00     mov         eax,1
+  00000041: EB 38              jmp         0000007B
+  00000043: C7 45 FC 01 00 00  mov         dword ptr [ebp-4],1
+            00
+  0000004A: EB 09              jmp         00000055
+  0000004C: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  0000004F: 83 C1 01           add         ecx,1
+  00000052: 89 4D FC           mov         dword ptr [ebp-4],ecx
+  00000055: 8B 55 FC           mov         edx,dword ptr [ebp-4]
+  00000058: 3B 55 F8           cmp         edx,dword ptr [ebp-8]
+  0000005B: 7F 0B              jg          00000068
+  0000005D: 8B 45 F4           mov         eax,dword ptr [ebp-0Ch]
+  00000060: 03 45 FC           add         eax,dword ptr [ebp-4]
+  00000063: 89 45 F4           mov         dword ptr [ebp-0Ch],eax
+  00000066: EB E4              jmp         0000004C
+  00000068: 8B 4D F4           mov         ecx,dword ptr [ebp-0Ch]
+  0000006B: 51                 push        ecx
+  0000006C: 68 00 00 00 00     push        offset $SG9677
+  00000071: E8 00 00 00 00     call        _printf
+  00000076: 83 C4 08           add         esp,8
+  00000079: 33 C0              xor         eax,eax
+  0000007B: 8B E5              mov         esp,ebp
+  0000007D: 5D                 pop         ebp
+  0000007E: C3                 ret
+
+___local_stdio_printf_options:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: B8 00 00 00 00     mov         eax,offset ?_OptionsStorage@?1??__local_stdio_printf_options@@9@9
+  00000008: 5D                 pop         ebp
+  00000009: C3                 ret
+
+___local_stdio_scanf_options:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: B8 00 00 00 00     mov         eax,offset ?_OptionsStorage@?1??__local_stdio_scanf_options@@9@9
+  00000008: 5D                 pop         ebp
+  00000009: C3                 ret
+
+__vfprintf_l:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 8B 45 14           mov         eax,dword ptr [ebp+14h]
+  00000006: 50                 push        eax
+  00000007: 8B 4D 10           mov         ecx,dword ptr [ebp+10h]
+  0000000A: 51                 push        ecx
+  0000000B: 8B 55 0C           mov         edx,dword ptr [ebp+0Ch]
+  0000000E: 52                 push        edx
+  0000000F: 8B 45 08           mov         eax,dword ptr [ebp+8]
+  00000012: 50                 push        eax
+  00000013: E8 00 00 00 00     call        ___local_stdio_printf_options
+  00000018: 8B 48 04           mov         ecx,dword ptr [eax+4]
+  0000001B: 51                 push        ecx
+  0000001C: 8B 10              mov         edx,dword ptr [eax]
+  0000001E: 52                 push        edx
+  0000001F: E8 00 00 00 00     call        ___stdio_common_vfprintf
+  00000024: 83 C4 18           add         esp,18h
+  00000027: 5D                 pop         ebp
+  00000028: C3                 ret
+
+__vfscanf_l:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 8B 45 14           mov         eax,dword ptr [ebp+14h]
+  00000006: 50                 push        eax
+  00000007: 8B 4D 10           mov         ecx,dword ptr [ebp+10h]
+  0000000A: 51                 push        ecx
+  0000000B: 8B 55 0C           mov         edx,dword ptr [ebp+0Ch]
+  0000000E: 52                 push        edx
+  0000000F: 8B 45 08           mov         eax,dword ptr [ebp+8]
+  00000012: 50                 push        eax
+  00000013: E8 00 00 00 00     call        ___local_stdio_scanf_options
+  00000018: 8B 48 04           mov         ecx,dword ptr [eax+4]
+  0000001B: 51                 push        ecx
+  0000001C: 8B 10              mov         edx,dword ptr [eax]
+  0000001E: 52                 push        edx
+  0000001F: E8 00 00 00 00     call        ___stdio_common_vfscanf
+  00000024: 83 C4 18           add         esp,18h
+  00000027: 5D                 pop         ebp
+  00000028: C3                 ret
+
+_printf:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 08           sub         esp,8
+  00000006: 8D 45 0C           lea         eax,[ebp+0Ch]
+  00000009: 89 45 FC           mov         dword ptr [ebp-4],eax
+  0000000C: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  0000000F: 51                 push        ecx
+  00000010: 6A 00              push        0
+  00000012: 8B 55 08           mov         edx,dword ptr [ebp+8]
+  00000015: 52                 push        edx
+  00000016: 6A 01              push        1
+  00000018: E8 00 00 00 00     call        ___acrt_iob_func
+  0000001D: 83 C4 04           add         esp,4
+  00000020: 50                 push        eax
+  00000021: E8 00 00 00 00     call        __vfprintf_l
+  00000026: 83 C4 10           add         esp,10h
+  00000029: 89 45 F8           mov         dword ptr [ebp-8],eax
+  0000002C: C7 45 FC 00 00 00  mov         dword ptr [ebp-4],0
+            00
+  00000033: 8B 45 F8           mov         eax,dword ptr [ebp-8]
+  00000036: 8B E5              mov         esp,ebp
+  00000038: 5D                 pop         ebp
+  00000039: C3                 ret
+
+_scanf:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 08           sub         esp,8
+  00000006: 8D 45 0C           lea         eax,[ebp+0Ch]
+  00000009: 89 45 FC           mov         dword ptr [ebp-4],eax
+  0000000C: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  0000000F: 51                 push        ecx
+  00000010: 6A 00              push        0
+  00000012: 8B 55 08           mov         edx,dword ptr [ebp+8]
+  00000015: 52                 push        edx
+  00000016: 6A 00              push        0
+  00000018: E8 00 00 00 00     call        ___acrt_iob_func
+  0000001D: 83 C4 04           add         esp,4
+  00000020: 50                 push        eax
+  00000021: E8 00 00 00 00     call        __vfscanf_l
+  00000026: 83 C4 10           add         esp,10h
+  00000029: 89 45 F8           mov         dword ptr [ebp-8],eax
+  0000002C: C7 45 FC 00 00 00  mov         dword ptr [ebp-4],0
+            00
+  00000033: 8B 45 F8           mov         eax,dword ptr [ebp-8]
+  00000036: 8B E5              mov         esp,ebp
+  00000038: 5D                 pop         ebp
+  00000039: C3                 ret
+
+  Summary
+
+          90 .chks64
+          2E .data
+         D68 .debug$S
+          68 .debug$T
+          2F .drectve
+         159 .text$mn

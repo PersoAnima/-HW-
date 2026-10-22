@@ -1,0 +1,47 @@
+作业题目 3：C 语言与反汇编对照说明
+
+SUM.C 从标准输入读取 n，检查其范围，然后用循环计算 1+2+...+n。输入 100 时输出 5050。SUM.cod 把 C 源码和编译后的汇编排在一起；SUM.DIS 显示目标文件中的指令。下面只解释 SUM.cod 中 main 函数的关键部分。
+
+1. 给总和设置初值
+C 代码：sum = 0
+汇编指令：mov DWORD PTR _sum$[ebp], 0
+含义：在局部变量 sum 的位置存入 0。
+
+2. 读取用户输入
+C 代码：scanf("%d", &n)
+汇编指令：lea eax, DWORD PTR _n$[ebp]；push eax；call _scanf
+含义：先取得变量 n 的地址，再交给 scanf，让 scanf 把输入写入 n。
+
+3. 检查输入范围
+C 代码：n < 1 或 n > 100
+汇编指令：cmp ..., 1；jl ...；cmp ..., 100；jle ...
+含义：用比较和条件跳转决定输入是否在 1～100 内。
+
+4. 给循环变量设置初值
+C 代码：i = 1
+汇编指令：mov DWORD PTR _i$1[ebp], 1
+含义：从数字 1 开始累加。
+
+5. 判断是否完成求和
+C 代码：i <= n
+汇编指令：cmp edx, DWORD PTR _n$[ebp]；jg ...
+含义：如果 i 已经大于 n，就离开求和循环。
+
+6. 累加当前数字
+C 代码：sum += i
+汇编指令：mov eax, DWORD PTR _sum$[ebp]；add eax, DWORD PTR _i$1[ebp]；mov DWORD PTR _sum$[ebp], eax
+含义：把旧的 sum 取到寄存器，加上 i，再把新结果存回 sum。
+
+7. 准备下一个数字
+C 代码：++i
+汇编指令：add ecx, 1；mov DWORD PTR _i$1[ebp], ecx
+含义：循环变量加 1。
+
+8. 打印结果
+C 代码：printf("Sum = %d\n", sum)
+汇编指令：push ecx；call _printf
+含义：把总和交给 printf，由 C 运行库转换成十进制文字并显示。
+
+手算检查：1+2+...+100 = 100×101÷2 = 5050。5050 小于 16 位无符号整数的最大值 65535，所以汇编版使用一个 16 位字保存总和足够。
+
+说明：这里的反汇编来自 Windows 的 32 位 C 编译器，因此会出现 EAX、EBP、ESP 等 32 位寄存器。DOS 汇编版使用 16 位寄存器和 INT 21H；C 版调用 scanf、printf。两种程序实现的平台不同，要比较的是读入或设置上限、循环相加、把结果作为十进制文字输出这三步。
