@@ -1,0 +1,141 @@
+Microsoft (R) Macro Assembler Version 5.00                  11/5/26 00:50:20
+                                                             Page     1-1
+
+
+				.MODEL SMALL 
+ 0100				.STACK 100H 
+ 0000				.DATA 
+ 0000  54 68 65 20 39 6D 75	TITLEMSG DB 'The 9mul9 table:',13,10,'$' 
+       6C 39 20 74 61 62 6C	
+       65 3A 0D 0A 24		
+ 0000				.CODE 
+ 0000				START: 
+ 0000  B8 ---- R		    MOV AX,@DATA 
+ 0003  8E D8			    MOV DS,AX 
+ 0005  8D 16 0000 R		    LEA DX,TITLEMSG 
+ 0009  B4 09			    MOV AH,09H 
+ 000B  CD 21			    INT 21H 
+ 000D  BE 0009			    MOV SI,9              ; SI holds the row nu
+				mber 
+ 0010				ROW_START: 
+ 0010  BF 0001			    MOV DI,1              ; DI holds the column
+				 number 
+ 0013				COL_START: 
+ 0013  8B C6			    MOV AX,SI 
+ 0015  8B D7			    MOV DX,DI 
+ 0017  F6 E2			    MUL DL                ; AL times DL gives t
+				he product in AX 
+ 0019  50			    PUSH AX               ; Keep the product wh
+				ile printing both factors 
+ 001A  8B C6			    MOV AX,SI 
+ 001C  E8 0050 R		    CALL PRINT_NUM 
+ 001F  B2 2A			    MOV DL,'*' 
+ 0021  E8 006E R		    CALL PUT_CHAR 
+ 0024  8B C7			    MOV AX,DI 
+ 0026  E8 0050 R		    CALL PRINT_NUM 
+ 0029  B2 3D			    MOV DL,'=' 
+ 002B  E8 006E R		    CALL PUT_CHAR 
+ 002E  58			    POP AX 
+ 002F  E8 0050 R		    CALL PRINT_NUM 
+ 0032  47			    INC DI 
+ 0033  3B FE			    CMP DI,SI 
+ 0035  77 07			    JA ROW_END 
+ 0037  B2 09			    MOV DL,9 
+ 0039  E8 006E R		    CALL PUT_CHAR 
+ 003C  EB D5			    JMP COL_START 
+ 003E				ROW_END: 
+ 003E  B2 0D			    MOV DL,13 
+ 0040  E8 006E R		    CALL PUT_CHAR 
+ 0043  B2 0A			    MOV DL,10 
+ 0045  E8 006E R		    CALL PUT_CHAR 
+ 0048  4E			    DEC SI 
+ 0049  75 C5			    JNZ ROW_START 
+ 004B  B8 4C00			    MOV AX,4C00H 
+ 004E  CD 21			    INT 21H 
+				 
+				; Input AL in 0..99. Save the caller's AX and D
+				X. 
+ 0050				PRINT_NUM PROC NEAR 
+Microsoft (R) Macro Assembler Version 5.00                  11/5/26 00:50:20
+                                                             Page     1-2
+
+
+ 0050  50			    PUSH AX 
+ 0051  52			    PUSH DX 
+ 0052  D4 0A			    AAM                   ; AH = tens, AL = one
+				s 
+ 0054  50			    PUSH AX 
+ 0055  80 FC 00			    CMP AH,0 
+ 0058  74 08			    JE ONES 
+ 005A  8A D4			    MOV DL,AH 
+ 005C  80 C2 30			    ADD DL,'0' 
+ 005F  E8 006E R		    CALL PUT_CHAR 
+ 0062				ONES: 
+ 0062  58			    POP AX 
+ 0063  8A D0			    MOV DL,AL 
+ 0065  80 C2 30			    ADD DL,'0' 
+ 0068  E8 006E R		    CALL PUT_CHAR 
+ 006B  5A			    POP DX 
+ 006C  58			    POP AX 
+ 006D  C3			    RET 
+ 006E				PRINT_NUM ENDP 
+				 
+				; Input DL = ASCII character. Preserve the call
+				er's registers. 
+ 006E				PUT_CHAR PROC NEAR 
+ 006E  50			    PUSH AX 
+ 006F  53			    PUSH BX 
+ 0070  52			    PUSH DX 
+ 0071  B4 02			    MOV AH,02H 
+ 0073  CD 21			    INT 21H 
+ 0075  5A			    POP DX 
+ 0076  5B			    POP BX 
+ 0077  58			    POP AX 
+ 0078  C3			    RET 
+ 0079				PUT_CHAR ENDP 
+ 0079				END START 
+Microsoft (R) Macro Assembler Version 5.00                  11/5/26 00:50:20
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+DGROUP . . . . . . . . . . . . .  	GROUP
+  _DATA  . . . . . . . . . . . .  	0013	WORD	PUBLIC	'DATA'
+  STACK  . . . . . . . . . . . .  	0100	PARA	STACK	'STACK'
+_TEXT  . . . . . . . . . . . . .  	0079	WORD	PUBLIC	'CODE'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+COL_START  . . . . . . . . . . .  	L NEAR	0013	_TEXT
+
+ONES . . . . . . . . . . . . . .  	L NEAR	0062	_TEXT
+
+PRINT_NUM  . . . . . . . . . . .  	N PROC	0050	_TEXT	Length = 001E
+PUT_CHAR . . . . . . . . . . . .  	N PROC	006E	_TEXT	Length = 000B
+
+ROW_END  . . . . . . . . . . . .  	L NEAR	003E	_TEXT
+ROW_START  . . . . . . . . . . .  	L NEAR	0010	_TEXT
+
+START  . . . . . . . . . . . . .  	L NEAR	0000	_TEXT
+
+TITLEMSG . . . . . . . . . . . .  	L BYTE	0000	_DATA
+
+@CODE  . . . . . . . . . . . . .  	TEXT  _TEXT		
+@CODESIZE  . . . . . . . . . . .  	TEXT  0		
+@DATASIZE  . . . . . . . . . . .  	TEXT  0		
+@FILENAME  . . . . . . . . . . .  	TEXT  MUL9		
+
+
+     79 Source  Lines
+     79 Total   Lines
+     22 Symbols
+
+  51164 + 465380 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

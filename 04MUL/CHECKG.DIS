@@ -1,0 +1,121 @@
+﻿Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file CHECKG.OBJ
+
+File Type: COFF OBJECT
+
+_main:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 08           sub         esp,8
+  00000006: 68 00 00 00 00     push        offset $SG9676
+  0000000B: E8 00 00 00 00     call        _puts
+  00000010: 83 C4 04           add         esp,4
+  00000013: C7 45 F8 00 00 00  mov         dword ptr [ebp-8],0
+            00
+  0000001A: EB 09              jmp         00000025
+  0000001C: 8B 45 F8           mov         eax,dword ptr [ebp-8]
+  0000001F: 83 C0 01           add         eax,1
+  00000022: 89 45 F8           mov         dword ptr [ebp-8],eax
+  00000025: 83 7D F8 09        cmp         dword ptr [ebp-8],9  ; 外层循环检查行下标是否到达 9。
+  00000029: 7D 59              jge         00000084
+  0000002B: C7 45 FC 00 00 00  mov         dword ptr [ebp-4],0
+            00
+  00000032: EB 09              jmp         0000003D
+  00000034: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  00000037: 83 C1 01           add         ecx,1
+  0000003A: 89 4D FC           mov         dword ptr [ebp-4],ecx
+  0000003D: 83 7D FC 09        cmp         dword ptr [ebp-4],9  ; 内层循环检查列下标是否到达 9。
+  00000041: 7D 3F              jge         00000082
+  00000043: 6B 55 F8 09        imul        edx,dword ptr [ebp-8],9  ; 行下标乘以 9，得到本行第一个元素的字节偏移。
+  00000047: 8B 45 FC           mov         eax,dword ptr [ebp-4]  ; 读取列下标，作为行内字节偏移。
+  0000004A: 0F B6 8C 02 00 00  movzx       ecx,byte ptr _grid[edx+eax]  ; 从全局数据区的 _grid + row*9 + col 取一个字节，零扩展到 ECX。
+            00 00
+  00000052: 8B 55 F8           mov         edx,dword ptr [ebp-8]
+  00000055: 83 C2 01           add         edx,1  ; 把从 0 开始的行下标转成从 1 开始的行号。
+  00000058: 8B 45 FC           mov         eax,dword ptr [ebp-4]
+  0000005B: 83 C0 01           add         eax,1  ; 把从 0 开始的列下标转成从 1 开始的列号。
+  0000005E: 0F AF D0           imul        edx,eax  ; 用两个从 1 开始的行列号算出正确乘积。
+  00000061: 3B CA              cmp         ecx,edx  ; 比较表中实际值与正确乘积。
+  00000063: 74 1B              je          00000080  ; 两者相等时跳过报错。
+  00000065: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  00000068: 83 C1 01           add         ecx,1
+  0000006B: 51                 push        ecx
+  0000006C: 8B 55 F8           mov         edx,dword ptr [ebp-8]
+  0000006F: 83 C2 01           add         edx,1
+  00000072: 52                 push        edx
+  00000073: 68 00 00 00 00     push        offset $SG9678
+  00000078: E8 00 00 00 00     call        _printf  ; 值不相等时调用 printf 输出错误坐标。
+  0000007D: 83 C4 0C           add         esp,0Ch
+  00000080: EB B2              jmp         00000034
+  00000082: EB 98              jmp         0000001C
+  00000084: 68 00 00 00 00     push        offset $SG9679
+  00000089: E8 00 00 00 00     call        _puts
+  0000008E: 83 C4 04           add         esp,4
+  00000091: 33 C0              xor         eax,eax
+  00000093: 8B E5              mov         esp,ebp
+  00000095: 5D                 pop         ebp
+  00000096: C3                 ret
+
+___local_stdio_printf_options:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: B8 00 00 00 00     mov         eax,offset ?_OptionsStorage@?1??__local_stdio_printf_options@@9@9
+  00000008: 5D                 pop         ebp
+  00000009: C3                 ret
+
+__vfprintf_l:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 8B 45 14           mov         eax,dword ptr [ebp+14h]
+  00000006: 50                 push        eax
+  00000007: 8B 4D 10           mov         ecx,dword ptr [ebp+10h]
+  0000000A: 51                 push        ecx
+  0000000B: 8B 55 0C           mov         edx,dword ptr [ebp+0Ch]
+  0000000E: 52                 push        edx
+  0000000F: 8B 45 08           mov         eax,dword ptr [ebp+8]
+  00000012: 50                 push        eax
+  00000013: E8 00 00 00 00     call        ___local_stdio_printf_options
+  00000018: 8B 48 04           mov         ecx,dword ptr [eax+4]
+  0000001B: 51                 push        ecx
+  0000001C: 8B 10              mov         edx,dword ptr [eax]
+  0000001E: 52                 push        edx
+  0000001F: E8 00 00 00 00     call        ___stdio_common_vfprintf
+  00000024: 83 C4 18           add         esp,18h
+  00000027: 5D                 pop         ebp
+  00000028: C3                 ret
+
+_printf:
+  00000000: 55                 push        ebp
+  00000001: 8B EC              mov         ebp,esp
+  00000003: 83 EC 08           sub         esp,8
+  00000006: 8D 45 0C           lea         eax,[ebp+0Ch]
+  00000009: 89 45 FC           mov         dword ptr [ebp-4],eax
+  0000000C: 8B 4D FC           mov         ecx,dword ptr [ebp-4]
+  0000000F: 51                 push        ecx
+  00000010: 6A 00              push        0
+  00000012: 8B 55 08           mov         edx,dword ptr [ebp+8]
+  00000015: 52                 push        edx
+  00000016: 6A 01              push        1
+  00000018: E8 00 00 00 00     call        ___acrt_iob_func
+  0000001D: 83 C4 04           add         esp,4
+  00000020: 50                 push        eax
+  00000021: E8 00 00 00 00     call        __vfprintf_l
+  00000026: 83 C4 10           add         esp,10h
+  00000029: 89 45 F8           mov         dword ptr [ebp-8],eax
+  0000002C: C7 45 FC 00 00 00  mov         dword ptr [ebp-4],0
+            00
+  00000033: 8B 45 F8           mov         eax,dword ptr [ebp-8]
+  00000036: 8B E5              mov         esp,ebp
+  00000038: 5D                 pop         ebp
+  00000039: C3                 ret
+
+  Summary
+
+          40 .chks64
+          74 .data
+          94 .debug$S
+          2F .drectve
+         104 .text$mn
